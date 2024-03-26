@@ -1,6 +1,7 @@
 from mongoengine import connect
 import configparser
 
+# class db_connect():
 
 config = configparser.ConfigParser()
 config.read('config.ini')
