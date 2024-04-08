@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Main",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/NoSQL_MongoDB_RabbitMQ/nosql_mongodb_rabbitmq/main.py",
+            "cwd": "${workspaceFolder}/NoSQL_MongoDB_RabbitMQ/nosql_mongodb_rabbitmq"
+        },
+        {
+            "name": "Debug Seed",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/NoSQL_MongoDB_RabbitMQ/nosql_mongodb_rabbitmq/db/seed.py",
+            "cwd": "${workspaceFolder}/NoSQL_MongoDB_RabbitMQ/nosql_mongodb_rabbitmq/db"
+        }
+    ]
+}

@@ -1,27 +1,45 @@
-# from .db.db_connect
-from .db.models import Author, Quotes
-from .db.db_connect import db_connect
-# from .db.db_connect import db_connect
+from db.models import Author, Quotes
+from db.db_connect import db_connect
 
 
 def name(name):
-    # notes = Notes.objects(tags__name__in=['Fun', 'Purchases'])
-    quotes = Quotes.objects(author__fullname=name)
-    for quote in quotes:
-        tags = [tags for tag in quote.tags]
-        author = [f'fullname: {author.fullname}, born_date: {author.born_date}, born_location: {author.born_location} description: {author.description}' for author in quote.author]
-        print(f"id: {quote.id} tags: {tags} author: {author} quote: {quote.quote}") 
+    authors = Author.objects(fullname__istartswith = name)
+
+    res = []
+    for author_item in authors:
+        # auth = author_item.to_mongo().to_dict()
+        # print(auth)
+        quotes = Quotes.objects(author = author_item)
+
+        if quotes:
+            for q in quotes:
+                # res[author_item.fullname] = [q.quote for q in quotes]
+                adict = {
+                    'author':q.author.fullname,
+                    'born_date':q.author.born_date,
+                    'born_location':q.author.born_location,
+                    'quote':q.quote,
+                    'tags':q.tags
+                }
+                res.append(adict)
+
+    return res
+
         
-def tag(arg):
-    tag = Quotes.objects(tags='arg')
-    print(tag)
+def tag(tag):
+    # quotes = Quotes.objects(tags__in=['life', 'humor'])
+    quotes = Quotes.objects(tags__istartswith=tag)
+    # tag = Quotes.objects(tags__eq=tag)
+    # quotes = Quotes.objects(tags__contains=tag)
+    for quote in quotes:
+        print(quote.quote)
 
 def tags(tags):
     pass
 
 def parse_string(str):
     ar_str = str.split(":")
-    command_handler(ar_str)
+    return command_handler(ar_str)
 
 def command_handler(args):
     print(args)
@@ -37,12 +55,14 @@ COMMAND_HANDLER = {
 }
 
 def main():
+    db_connect()
     while True:
         user_input = input("Input command >>> ")
         user_input = user_input.strip().lower()
         if user_input == "exit":
             break
-        parse_string(user_input)
+        res = parse_string(user_input)
+        print(res)
 
 
 if __name__ == "__main__":

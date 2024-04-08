@@ -1,31 +1,41 @@
-import db_connect
+from db_connect import db_connect
 from models import Author, Quotes
 import json
+# import os
+
+db_connect()
 
 f_authors = '../data/authors.json'
 f_quotes = '../data/quotes.json'
+# print(f"os.getcwd() 777777777777: {os.getcwd()}")
+# print(f"f_authors: {f_authors}")
 
-with open(f_quotes, "r") as qt:
+
+with open(f_quotes, "r", encoding="utf-8") as qt:
     quotes = json.load(qt)
 
-with open(f_authors, "r") as ath:
-    aughors = json.load(ath)
+with open(f_authors, "r", encoding="utf-8") as ath:
+    authors = json.load(ath)
 
-auth_list = []
-for auth in aughors:
-    Author(fullname = auth['fullname'], 
-        born_date = auth['born_date'],
-        born_location = auth['born_location'],
-            description = auth['description'])
-    auth_list.append(auth)
+
+author_dict = {}
+for auth in authors:
+    author_object = Author(
+            fullname = auth['fullname'],
+            born_date = auth['born_date'],
+            born_location = auth['born_location'],
+            description = auth['description']
+        )
+    author_object.save()
+    author_dict[auth['fullname']] = author_object
+
 
 for quot in quotes:
     auth = ""
-    for auth_obj in auth_list:
-        if auth_obj['fullname'] == quot['author']:
-            auth = auth_obj
-            break
+    author_obj_name = author_dict.get(quot['author'])
+    if author_obj_name:
+        Quotes(
+                tags = quot['tags'], 
+                author = author_obj_name,
+                quote = quot['quote']).save()  
         
-    Quotes(tags = quot['tags'], 
-            author = auth,
-            quote = quot['quote']).save()    

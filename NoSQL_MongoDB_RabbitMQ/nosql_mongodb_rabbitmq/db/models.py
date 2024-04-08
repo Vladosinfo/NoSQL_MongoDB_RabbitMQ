@@ -1,7 +1,7 @@
 from datetime import datetime
-
-from mongoengine import EmbeddedDocument, Document
-from mongoengine.fields import ReferenceField, DateTimeField, EmbeddedDocumentField, ListField, StringField
+from bson import json_util
+from mongoengine import EmbeddedDocument, connect, Document, CASCADE
+from mongoengine.fields import ReferenceField, DateTimeField, EmbeddedDocumentField, ListField, StringField, DictField
 
 
 class Author(Document):
@@ -9,11 +9,12 @@ class Author(Document):
     born_date = StringField()
     born_location = StringField()
     description = StringField()
+    meta = {"collection": "authors"}
 
 
 class Quotes(Document):
     tags = ListField(StringField())
-    # author = ReferenceField(EmbeddedDocumentField(Author))
     author = ReferenceField(Author)
     quote = StringField()
-    meta = {'allow_inheritance': True}
+
+    meta = {"collection": "quotes"}
