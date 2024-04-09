@@ -37,5 +37,5 @@ for quot in quotes:
         Quotes(
                 tags = quot['tags'], 
                 author = author_obj_name,
-                quote = quot['quote']).save()  
+                quote = quot['quote'][1:-1]).save()  # TODO need check
         
