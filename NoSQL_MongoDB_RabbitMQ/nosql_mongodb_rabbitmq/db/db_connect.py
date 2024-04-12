@@ -4,10 +4,10 @@ import os
 
 # debug connection
 # D:\git_python\NoSQL_MongoDB_RabbitMQ
-CONFIG_FILE = './NoSQL_MongoDB_RabbitMQ/nosql_mongodb_rabbitmq/db/config.ini'
+# CONFIG_FILE = './NoSQL_MongoDB_RabbitMQ/nosql_mongodb_rabbitmq/db/config.ini'
 # normal connection
 # D:\git_python\NoSQL_MongoDB_RabbitMQ\NoSQL_MongoDB_RabbitMQ\nosql_mongodb_rabbitmq
-# CONFIG_FILE = 'db/config.ini'
+CONFIG_FILE = 'db/config.ini'
 # if connect from 'db' folder ( when starting seeds.py - for example )
 # CONFIG_FILE = 'config.ini'
 

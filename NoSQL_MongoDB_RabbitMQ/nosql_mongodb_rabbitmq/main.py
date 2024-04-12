@@ -1,5 +1,12 @@
 from db.models import Author, Quotes
 from db.db_connect import db_connect
+
+import redis
+from redis_lru import RedisLRU
+
+client = redis.StrictRedis(host="localhost", port=6379, password=None)
+cache = RedisLRU(client)
+
 # import argparse
 
 # parser = argparse.ArgumentParser()
@@ -22,8 +29,9 @@ def form_dict(quotes):
         res.append(dict)
 
     return res
-            
 
+
+@cache
 def name(name):
     authors = Author.objects(fullname__istartswith = name)
 
@@ -38,6 +46,7 @@ def name(name):
     return res
 
         
+@cache        
 def tag(tag):
     res = []
     quotes = Quotes.objects(tags__istartswith=tag)
