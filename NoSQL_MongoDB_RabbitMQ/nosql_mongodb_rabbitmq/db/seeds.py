@@ -1,14 +1,18 @@
 from db_connect import db_connect
 from models import Author, Quotes
 import json
-# import os
+import os
+import configparser
 
-db_connect()
+current_directory = os.getcwd()
+config = configparser.ConfigParser()
+config_path = current_directory+"\config.ini"
+config.read(config_path)
+
+db_connect(None, config)
 
 f_authors = '../data/authors.json'
 f_quotes = '../data/quotes.json'
-# print(f"os.getcwd() 777777777777: {os.getcwd()}")
-# print(f"f_authors: {f_authors}")
 
 
 with open(f_quotes, "r", encoding="utf-8") as qt:
@@ -37,5 +41,5 @@ for quot in quotes:
         Quotes(
                 tags = quot['tags'], 
                 author = author_obj_name,
-                quote = quot['quote'][1:-1]).save()  # TODO need check
+                quote = quot['quote'][1:-1]).save()
         
